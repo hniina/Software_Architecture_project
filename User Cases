@@ -1,0 +1,34 @@
+Set Cell Value:
+• The user sets a value for a specific cell
+• The cell coordinate is provided correctly.
+
+Main Flow:
+
+user inputs the cell coordinate (e.g. A1)
+user inputs the value (text, number, formula).
+The program sets the value for the specified cell
+• The cell value is updated in the spreadsheet.
+Calculate Formula:
+• The user inputs a formula, and the program calculates the result
+• formula is provided in the correct format.
+
+Main Flow
+user inputs the formula (e.g. =A1+B1)
+The program calculates the result of the formula
+• The result is displayed or stored
+Show Spreadsheet
+• user can view the values of all cells in the spreadsheet
+
+Main Flow
+
+The user selects the option to show the spreadsheet
+The program displays all cells and their values
+• All cells and their values are shown to the user
+Exit Program
+• User ends the program.
+
+Main Flow
+
+user selects the option to exit the program
+The program is terminated
+• The program is closed
