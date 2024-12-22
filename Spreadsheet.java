@@ -55,6 +55,8 @@ public class Spreadsheet {
         Cell cell = cells.getOrDefault(key, new Cell());
         cell.setContent(content);
 
+        dependencies.remove(key);
+
         // If content is a formula, find dependencies
         if (content.startsWith("=")) {
             String[] tokens = content.substring(1).split("(?=[+*/()-])|(?<=[+*/()-])");
@@ -67,7 +69,13 @@ public class Spreadsheet {
 
         // Save the cell and update dependencies
         cells.put(key, cell);
-        updateDependentCells(key);
+
+        try {
+            updateDependentCells(key);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Circular reference detected while updating: " + key);
+            throw e;
+        }
     }
 
     // Add a dependency between cells
@@ -81,6 +89,10 @@ public class Spreadsheet {
         if (!dependencies.containsKey(cellKey)) return;
 
         for (String dependent : dependencies.get(cellKey)) {
+            if (visitedCells.contains(dependent)) {
+                throw new IllegalArgumentException("Circular reference detected: " + dependent);
+            }
+
             Cell cell = cells.get(dependent);
             if (cell != null && cell.getContent().startsWith("=")) {
                 double newValue = evaluateFormula(cell.getContent(), dependent);
@@ -132,11 +144,12 @@ public class Spreadsheet {
     // Evaluate a formula
     public double evaluateFormula(String formula, String currentCell) {
         if (visitedCells.contains(currentCell)) {
+            //System.out.println("Circular reference detected while visiting: " + currentCell);
             throw new IllegalArgumentException("Circular reference detected: " + currentCell);
         }
 
         visitedCells.add(currentCell); // Mark cell as visited
-        //System.out.println("Visiting cell: " + currentCell);
+        System.out.println("Visiting cell: " + currentCell);
      try {
         if (formula == null || formula.isEmpty()) {
             throw new IllegalArgumentException("The cell does not exist or is empty.");
@@ -199,8 +212,8 @@ public class Spreadsheet {
         }
         return values.pop();
     } finally {
-        visitedCells.remove(currentCell); //clear visited mark
-       // System.out.println("Finished visiting cell: " + currentCell);
+         visitedCells.remove(currentCell); //clear visited mark
+         System.out.println("Finished visiting cell: " + currentCell);
     }
 }
 
