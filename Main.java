@@ -12,7 +12,7 @@ public class Main {
         int row= 0;
         boolean validRow;
 
-        while (!exit) {
+        while (!exit) {  // Show menu options to the user
             System.out.println("Select action");
             System.out.println("1.Set Cell Content:");
             System.out.println("2.View Cell Content:");
@@ -20,6 +20,9 @@ public class Main {
             System.out.println("4.Exit");
             System.out.println("5.Save Spreadsheet");
             System.out.println("6.Load Spreadsheet");
+            System.out.println("7.Evaluate Cell Value");
+            System.out.println("8.Show Spreadsheet in Table Form");
+
 
             int choice = 0;
             boolean validInput = false;
@@ -38,7 +41,7 @@ public class Main {
             scanner.nextLine();
 
             switch (choice) {
-                case 1:
+                case 1:  // Set cell content
                     System.out.println("Column, e.g. A): ");
                     column = scanner.nextLine().toUpperCase();
                     System.out.println("Row, e.g. 1): ");
@@ -59,7 +62,7 @@ public class Main {
                     spreadsheet.setCellContent(column, row, content);
                     break;
 
-                case 2:
+                case 2: // View cell content
                     System.out.println("Column, e.g. A): ");
                     column = scanner.nextLine().toUpperCase();
                     System.out.println("Row, e.g. 1): ");
@@ -78,15 +81,15 @@ public class Main {
                     System.out.println("The cell content, e.g = A1+B2: " + spreadsheet.getCellContent(column, row));
                     break;
 
-                case 3:
+                case 3: // Show all cell data
                     spreadsheet.showSpreadsheet();
                     break;
 
-                case 4:
+                case 4: // Exit the program
                     exit = true;
                     break;
 
-                case 5:
+                case 5: // Save spreadsheet to a file
                     System.out.println("Enter filename to save: ");
                     String saveFile = scanner.nextLine();
                     try {
@@ -96,7 +99,7 @@ public class Main {
                     }
                     break;
 
-                case 6:
+                case 6:  // Load spreadsheet from a file
                     System.out.println("Enter filename to load: ");
                     String loadFile = scanner.nextLine();
                     try {
@@ -106,7 +109,41 @@ public class Main {
                     }
                     break;
 
-                default:
+                case 7:
+                    // Evaluate cell value
+                    System.out.println("Column, e.g., A: ");
+                    column = scanner.nextLine().toUpperCase();
+                    System.out.println("Row, e.g., 1: ");
+                    validRow = false;
+                    while (!validRow) {
+                        try {
+                            row = scanner.nextInt();
+                            validRow = true;
+                        } catch (InputMismatchException e) {
+                            System.out.println("Invalid input. Please enter a valid row number.");
+                            scanner.next(); // Clear invalid input
+                        }
+                    }
+                    scanner.nextLine(); // Clear newline
+                    try {
+                        // Get the cell content and evaluate it
+                        String cellContent = spreadsheet.getCellContent(column, row);
+                        double value = spreadsheet.evaluateFormula(cellContent,column + row);
+                        System.out.println("The evaluated value of the cell is: " + value);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Error evaluating the cell: " + e.getMessage());
+                    }
+                    break;
+                case 8: // Show spreadsheet as a table
+                    System.out.println("Enter the maximum number of columns (e.g., 5): ");
+                    int maxColumns = scanner.nextInt();
+                    System.out.println("Enter the maximum number of rows (e.g., 5): ");
+                    int maxRows = scanner.nextInt();
+                    spreadsheet.showSpreadsheetInTableForm(maxColumns, maxRows);
+                    break;
+
+
+                default: // Handle invalid choices
                     System.out.println("Invalid choice");
                     break;
             }
