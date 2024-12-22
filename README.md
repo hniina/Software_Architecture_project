@@ -1,11 +1,27 @@
 This project implements the core components of a basic spreadsheet, allowing users to set and view cell content via a textual interface.
 
-The repository includes:
+Repository Includes:
 
-1. Use cases and domain model (added on 2.10)
-2. Domain model implementation in Java (added on 15.10).
-3. Core spreadsheet functionality (pushed now as a single batch because I forgot to commit intermediate steps).
+- Use cases and domain model.
+- Domain model implementation in Java.
+- Key files: Spreadsheet.java, Main.java, Cell.java, and SpreadsheetTest.java (JUnit).
+
+Features:
+- Set and Edit Cell Content: Input text, numbers, or formulas (e.g., =A1+10).
+- View Cell Content: Display raw or evaluated values.
+- Formula Evaluation: Supports operations (+, -, *, /) and functions (MAX, MIN, SUM, AVERAGE).
+- Range Support: Evaluate ranges in formulas (e.g., =SUM(A1:A5)).
+- Circular Reference Detection: Prevents invalid calculations.
+- File Operations: Save and load spreadsheet data.
+- Table View: Display spreadsheet in a formatted table.
+
+Menu Options:
+1. Set Cell Content: Modify a cell's content.
+2. View Cell Content: Show raw or evaluated values.
+3. Show Spreadsheet: List all cells with their values.
+4. Exit Program: Close the application.
+5. Save Spreadsheet: Save data to a file.
+6. Load Spreadsheet: Restore data from a file.
+7. Evaluate Cell Value: Evaluate the formula in a cell.
+8. Show Spreadsheet in Table Form: View the spreadsheet in a tabular format.
    
-This latest update includes:
-Full implementation of spreadsheet functionality, including saving, loading, formula evaluation, support for ranges, cycle detection, and cell propagation.
-Features like displaying the spreadsheet in table format, simple formulas (e.g., =12*4+5), and functions (=MAX(A1:B5, 100)).
